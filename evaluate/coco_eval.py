@@ -19,20 +19,6 @@ from lib.utils.common import Human, BodyPart, CocoPart, CocoColors, CocoPairsRen
 from lib.utils.paf_to_pose import paf_to_pose_cpp
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--cfg', help='experiment configure file name',
-                    default='./experiments/vgg19_368x368_sgd.yaml', type=str)
-parser.add_argument('--weight', type=str,
-                    default='../ckpts/openpose.pth')
-parser.add_argument('opts',
-                    help="Modify config options using the command-line",
-                    default=None,
-                    nargs=argparse.REMAINDER)
-args = parser.parse_args()
-
-# update config file
-update_config(cfg, args)
-
 
 '''
 MS COCO annotation order:
@@ -105,7 +91,7 @@ def get_outputs(img, model, preprocess):
     batch_images= np.expand_dims(im_data, 0)
 
     # several scales as a batch
-    batch_var = torch.from_numpy(batch_images).cuda().float()
+    batch_var = torch.from_numpy(batch_images).float()
     predicted_outputs, _ = model(batch_var)
     output1, output2 = predicted_outputs[-2], predicted_outputs[-1]
     heatmap = output2.cpu().data.numpy().transpose(0, 2, 3, 1)[0]
