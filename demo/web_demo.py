@@ -49,7 +49,7 @@ model.eval()
 if __name__ == "__main__":
     
     video_capture = cv2.VideoCapture(0)
-
+    print(video_capture)
     while True:
         # Capture frame-by-frame
         ret, oriImg = video_capture.read()
